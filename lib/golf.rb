@@ -1,7 +1,7 @@
 class Golf
   class << self
     def hole1 n
-      n.inject {|p,n| p*=n}
+      n.inject :*
     end
     def hole2 s 
       s.split.sort_by{|w| w[1]}.join ' '
