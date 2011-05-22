@@ -17,17 +17,10 @@ class Golf
         sub(/cat/,'dead')
       }
     end
-    def hole5 a 
-      r = []
-      e=a.size
-      (1..e).map { |i|
-        s = []
-        (0..e-1).map { |j|
-          s << a[j,i].sort
-        }
-        r += s
-      }
-      r.uniq!
+    def hole5 n 
+      x = []
+      (1..4).each { |i| x += n.each_cons(i).to_a }
+      x
     end
     def hole6 a 
       f="fizz"
