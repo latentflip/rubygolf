@@ -10,19 +10,11 @@ class Golf
       hole1 (1..n)
     end
     def hole4 a 
-      a.map {|t|
-        /(.*)\((.*)\)/ =~ t
-        r = $~
-        case r[1]
-        when "man"
-          "hat(#{r[0]})"
-        when "dog"
-          "dog(#{r[2]}(bone))"
-        when "cat"
-          "dead(#{r[2]})"
-        else
-          r
-        end
+      a.map { |t| 
+        t.
+        sub(/(man.*)/,'hat(\1)').
+        sub(/dog\((.*)\)/,'dog(\1(bone))').
+        sub(/cat/,'dead')
       }
     end
     def hole5 a 
