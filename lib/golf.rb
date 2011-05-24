@@ -1,48 +1,49 @@
 class Golf
-  class << self
-    def hole1 n
-      n.inject :*
-    end
-    def hole2 s 
-      s.split.sort_by{|w| w[1]}.join ' '
-    end
-    def hole3 n 
-      hole1 (1..n)
-    end
-    def hole4 a 
-      a.map { |t| 
-        t.
+  def self.method_missing s, a
+    k=[]
+    case s.to_s[-1]
+    when ?1
+      a.reduce :*
+    when ?2
+      a.split.sort_by{|i| i[1] }*' '
+    when ?3
+      h1 1..a
+    when ?4
+      a.map { |i| i.
         sub(/(man.*)/,'hat(\1)').
-        sub(/dog\((.*)\)/,'dog(\1(bone))').
-        sub(/cat/,'dead')
+        sub(/(dog.*)\)/,'\1(bone))').
+        sub 'cat','dead'
       }
-    end
-    def hole5 n 
-      x = []
-      (1..4).each { |i| x += n.each_cons(i).to_a }
-      x
-    end
-    def hole6 a 
+    when ?5
+      a.size.times { |i| k += a.each_cons(i+1).to_a }
+      k
+    when ?6
       f="fizz"
       b="buzz"
-      (1..a).map {|i| i%3 > 0 ? i%5 > 0 ? i : b : i%15>0 ? f : f+b}
-    end
-    def hole8 n 
+      (1..a).map { |s|  s%3 > 0 ? s%5 > 0 ? s : b  : s%15>0 ? f : f+b }
+    when ?7
+      r = [0]
+      l,x=a
+      m=l
+      a.map {|a|
+       x ? x=$_ : (m+=1) == a ? r[-1]=[l,a]*'-' : r<<l=m=a
+      }
+      r
+    when ?8
       i=[0,1]
-      n.times { i << i[-1]+i[-2] }
+      a.times { i << i[-1]+i[-2] }
       i[1..-2]
-    end
-    def hole9 f 
-      v = open(f).map {|e| e.chomp.split ', '}
-      l = lambda {|_| _.group_by {|e| e[0]}}
-      g = l.call v
-      while (a = g.max_by {|e,s| s.size})[1].size < v.size/2.0
-        r = g.min_by {|e,s| s.size}[0]
-        v.select {|e| e[0]==r}.map &:shift
-        v.reject! &:empty?
-        g = l.call v
+    when ?9
+      b = open(a).map {|e| e.chomp.split ', '}
+      g = z b
+      while (c,d = g.minmax_by {|e,s| s.size})[0][1].size*2 < b.size
+        b.select {|e| e[0]==c[0]}.map &:shift
+        b -= [k]
+        g = z b
       end
-      a[0]
+      d[0]
+    when ?z
+      a.group_by {|e,*f| e}
     end
   end
 end
